@@ -18,10 +18,8 @@
 
 import { Link } from "@components/Link";
 import { Devs } from "@utils/constants";
-import { Logger } from "@utils/Logger";
 import definePlugin from "@utils/types";
 import { Forms } from "@webpack/common";
-const logger = new Logger("EnhancedAMWin");
 
 interface ActivityAssets {
     large_image: string;
@@ -67,7 +65,7 @@ export default definePlugin({
             find: '="LocalActivityStore",',
             replacement: {
                 match: /LOCAL_ACTIVITY_UPDATE:function\((\i)\)\{/,
-                replace: "$&$self.patchActivity($1.activity);",
+                replace: "$&$self.updateActivity($1.activity);",
             },
         },
 
@@ -94,7 +92,7 @@ export default definePlugin({
             </Forms.FormText>
         </>
     ),
-    patchActivity(activity: Activity) {
+    updateActivity(activity: Activity) {
         if (activity?.application_id === AMWinClientID) {
             activity.type = 2;
         }
